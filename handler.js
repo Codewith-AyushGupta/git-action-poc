@@ -4,7 +4,7 @@ const athena = new AWS.Athena();
 const sqs = new AWS.SQS();
 
 exports.hello = async (event) => {
-  console.log("Handler triggered: changed.", JSON.stringify(event));
+  console.log("Handler triggered: changed From Test Branch.", JSON.stringify(event));
 
   const queueParams = {
     QueueUrl: process.env.AthenaFallBackQueue,
