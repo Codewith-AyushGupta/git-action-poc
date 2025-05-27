@@ -1,0 +1,39 @@
+org: nubystech
+service: poc
+
+provider:
+  name: aws
+  runtime: nodejs20.x
+  region: ap-south-1
+  environment:
+    AthenaFallBackQueue:
+      Ref: AthenaFallBackQueue
+
+resources:
+  Resources:
+    AthenaFallBackQueue:
+      Type: AWS::SQS::Queue
+      Properties:
+        QueueName: "AthenaFallBackQueue.fifo"
+        FifoQueue: true
+        VisibilityTimeout: 120 
+        ContentBasedDeduplication: false
+        DelaySeconds: 0
+        MessageRetentionPeriod: 1209600
+
+functions:
+  hello:
+    handler: handler.hello
+    events:
+      - eventBridge:
+          pattern:
+            source:
+              - "aws.athena"
+            detail-type:
+              - "Athena Query State Change"
+            detail:
+              currentState:
+                - "SUCCEEDED"
+                - "FAILED"
+  sendMessageOnAthena:
+    handler: sendMessageOnAthena.handler

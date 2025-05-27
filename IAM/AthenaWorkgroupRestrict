@@ -1,0 +1,28 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "AllowQueryExecutionInSpecificWorkgroup",
+            "Effect": "Allow",
+            "Action": [
+                "athena:StartQueryExecution",
+                "athena:GetQueryExecution",
+                "athena:GetQueryResults"
+            ],
+            "Resource": "arn:aws:athena:ap-south-1:943805235639:workgroup/POC-AP-SOUTH-1"
+        },
+        {
+            "Sid": "AllowListAndView",
+            "Effect": "Allow",
+            "Action": [
+                "athena:ListWorkGroups",
+                "athena:ListDataCatalogs",
+                "athena:ListDatabases",
+                "athena:GetDatabase",
+                "athena:ListTableMetadata",
+                "athena:GetTableMetadata"
+            ],
+            "Resource": "*"
+        }
+    ]
+}

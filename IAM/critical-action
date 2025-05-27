@@ -1,0 +1,69 @@
+
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "DenyLambdaCreation",
+            "Effect": "Deny",
+            "Action": [
+                "lambda:CreateFunction",
+                "lambda:UpdateFunctionCode",
+                "lambda:UpdateFunctionConfiguration"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Sid": "DenyS3BucketAndReadAccess",
+            "Effect": "Allow",
+            "Action": [
+                "s3:CreateBucket",
+                "s3:GetObject"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Sid": "AllowAthenaResultBucketAccess",
+            "Effect": "Allow",
+            "Action": [
+                "s3:PutObject",
+                "s3:GetBucketLocation",
+                "s3:GetObject",
+                "s3:ListBucket"
+            ],
+            "Resource": [
+                "arn:aws:s3:::athena-output-ap-south-1-poc",
+                "arn:aws:s3:::athena-output-ap-south-1-poc/*"
+            ]
+        },
+        {
+            "Sid": "DenySQSPurgeAndCreate",
+            "Effect": "Deny",
+            "Action": [
+                "sqs:PurgeQueue",
+                "sqs:CreateQueue"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Sid": "DenyEventBridgeCreation",
+            "Effect": "Deny",
+            "Action": [
+                "events:PutRule",
+                "events:PutTargets"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Sid": "AllowAthenaQueryExecution",
+            "Effect": "Allow",
+            "Action": [
+                "athena:StartQueryExecution",
+                "athena:GetQueryExecution",
+                "athena:GetQueryResults",
+                "athena:ListWorkGroups",
+                "athena:GetWorkGroup"
+            ],
+            "Resource": "*"
+        }
+    ]
+}
